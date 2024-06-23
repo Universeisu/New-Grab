@@ -1,9 +1,14 @@
 import React from "react";
-const Header = ()=>{
-    return(
-        <div>
-            <h1></h1>
-        </div>
-    )
+
+function Header() {
+  return (
+    <div className="navbar bg-base-100">
+      <div className="navbar-start"></div>
+      <div className="navbar-center">
+        <a className="btn btn-ghost text-xl">Grab Restaurant </a>
+      </div>
+    </div>
+  );
 }
-export default Headers;
+
+export default Header;
