@@ -1,8 +1,8 @@
-import React from 'react';
+import React from "react";
 
 function Card({ img, title, description }) {
   return (
-    <div className="card w-96 bg-base-100 shadow-xl m-4">
+    <div className="card card-compact bg-base-100 w-80 shadow-xl m-4 ">
       <figure>
         <img src={img} alt={title} />
       </figure>

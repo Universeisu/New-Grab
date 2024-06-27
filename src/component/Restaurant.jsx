@@ -1,17 +1,23 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Card from "./Card";
-import { useEffect,useState } from "react";
 
-const restaurantData = 
+const Restaurants = () => {
 
-function Restaurant() {
-  return (
-    <div className="flex flex-wrap justify-center">
-      {restaurantData.map((item, index) => (
-        <Card key={index} {...item} />
-      ))}
+
+ 
+    <div className="flex">
+      <div className="flex flex-wrap justify-center gap-4">
+        {restaurants.map((restaurant) => (
+          <Card
+            key={restaurant.id}
+            img={restaurant.img}
+            title={restaurant.title}
+            description={restaurant.description}
+          />
+        ))}
+      </div>
     </div>
-  );
-}
+ 
+};
 
-export default Restaurant;
+export default Restaurants;
