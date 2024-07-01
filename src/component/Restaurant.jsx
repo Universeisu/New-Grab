@@ -1,17 +1,34 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Card from "./Card";
-import { useEffect,useState } from "react";
 
-const restaurantData = 
+const Restaurant = () => {
+  const [restaurants, setRestaurants] = useState([]);
 
-function Restaurant() {
+  useEffect(() => {
+    fetch("http://localhost:3000/restaurant")
+      .then((res) => res.json())
+      .then((response) => {
+        setRestaurants(response);
+      })
+      .catch((err) => {
+        console.log(err.message);
+      });
+  }, []);
+
   return (
-    <div className="flex flex-wrap justify-center">
-      {restaurantData.map((item, index) => (
-        <Card key={index} {...item} />
-      ))}
+    <div className="flex">
+      <div className="flex flex-wrap justify-center gap-4">
+        {restaurants.map((restaurant) => (
+          <Card
+            key={restaurant.id}
+            img={restaurant.img}
+            title={restaurant.title}
+            description={restaurant.description}
+          />
+        ))}
+      </div>
     </div>
   );
-}
+};
 
 export default Restaurant;

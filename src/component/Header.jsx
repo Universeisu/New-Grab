@@ -2,12 +2,9 @@ import React from "react";
 
 function Header() {
   return (
-    <div className="navbar bg-base-100">
-      <div className="navbar-start"></div>
-      <div className="navbar-center">
-        <a className="btn btn-ghost text-xl">Grab Restaurant </a>
-      </div>
-    </div>
+    <header className="p-4 shadow-md">
+      <h1 className="text-2xl font-bold text-center">Grab Restaurant</h1>
+    </header>
   );
 }
 
