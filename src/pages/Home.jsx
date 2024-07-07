@@ -1,53 +1,45 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
+import Search from "./../component/Search";
+import Header from "./../component/Header";
+import Restaurant from "./../component/Restaurant";
 
-const Home = () => {
+
+//คล้ายกับหน้า App.jsxเเต่ต่างกันเเค่ชื่อเอาCodeในนั้นมาใส่ได้เลยเวลาเปิดหน้าเเรกจะขึ้น/Home ดีกว่าไม่มีหน้าเเรกให้เลือกทำไว้สำหรับใช้ Navbar ใน อนาคต
+function Home() {
+  const [restaurants, setRestaurants] = useState([]);
+  const [filterRestaurant, setfilterRestaurant] = useState([]);
+  
+  useEffect(() => {
+    fetch("http://localhost:3000/restaurant")
+      .then((res) => {
+        return res.json();
+      })
+      .then((response) => {
+        setRestaurants(response);
+        setfilterRestaurant(response);
+      })
+      .catch((err) => {
+        console.log(err.message);
+      });
+  }, []);
+  const addRestaurant = (newRestaurant) => {
+    setRestaurants([...restaurants, newRestaurant]);
+    setfilterRestaurant([...restaurants, newRestaurant]);
+  };
+
   return (
-    <div className="navbar bg-base-100">
-      <div className="flex-1">
-        <a className="btn btn-ghost text-xl">Grab Restaurant</a>
-      </div>
-      <div className="flex-none gap-2">
-        <div className="form-control">
-          <input
-            type="text"
-            placeholder="Search"
-            className="input input-bordered w-24 md:w-auto"
-          />
-        </div>
-        <div className="dropdown dropdown-end">
-          <div
-            tabIndex={0}
-            role="button"
-            className="btn btn-ghost btn-circle avatar"
-          >
-            <div className="w-10 rounded-full">
-              <img
-                alt="Tailwind CSS Navbar component"
-                src="https://img.daisyui.com/images/stock/photo-1534528741775-53994a69daeb.jpg"
-              />
-            </div>
-          </div>
-          <ul
-            tabIndex={0}
-            className="menu menu-sm dropdown-content bg-base-100 rounded-box z-[1] mt-3 w-52 p-2 shadow"
-          >
-            <li>
-              <a className="justify-between">
-                Profile
-                <span className="badge">New</span>
-              </a>
-            </li>
-            <li>
-              <a>Settings</a>
-            </li>
-            <li>
-              <a>Logout</a>
-            </li>
-          </ul>
+    <>
+      <div className="container flex flex-col items-center mx-auto space-y-4">
+        
+        <Search
+          restaurants={restaurants}
+          setfilterRestaurant={setfilterRestaurant}
+        />
+        <div className="container flex flex-row flex-wrap items-center justify-center">
+          <Restaurant restaurants={filterRestaurant} />
         </div>
       </div>
-    </div>
-  );
+    </>
+  )
 };
-
 export default Home;
