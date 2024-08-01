@@ -1,32 +1,17 @@
-import React, { useEffect, useState } from "react";
 import Card from "./Card";
 
-const Restaurant = () => {
-  const [restaurants, setRestaurants] = useState([]);
-
-  useEffect(() => {
-    fetch("http://localhost:3000/restaurant")
-      .then((res) => res.json())
-      .then((response) => {
-        setRestaurants(response);
-      })
-      .catch((err) => {
-        console.log(err.message);
-      });
-  }, []);
-
+const Restaurant = ({ restaurants }) => {
   return (
-    <div className="flex">
-      <div className="flex flex-wrap justify-center gap-4">
-        {restaurants.map((restaurant) => (
-          <Card
-            key={restaurant.id}
-            img={restaurant.img}
-            title={restaurant.title}
-            description={restaurant.description}
-          />
-        ))}
-      </div>
+    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+      {restaurants.map((restaurants) => (
+        <Card
+          key={restaurants.id}
+          id={restaurants.id}
+          img={restaurants.img}
+          title={restaurants.title}
+          type={restaurants.type}
+        />
+      ))}
     </div>
   );
 };

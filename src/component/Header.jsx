@@ -1,11 +1,11 @@
 import React from "react";
 
-function Header() {
+const Header = () => {
   return (
-    <header className="p-4 shadow-md">
-      <h1 className="text-2xl font-bold text-center">Grab Restaurant</h1>
-    </header>
+    <div>
+      <h1 className="font-bold text-3xl p-4 text-center">Menu</h1>
+    </div>
   );
-}
+};
 
 export default Header;

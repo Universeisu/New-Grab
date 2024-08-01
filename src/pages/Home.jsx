@@ -1,45 +1,32 @@
 import React, { useState, useEffect } from "react";
-import Search from "./../component/Search";
-import Header from "./../component/Header";
-import Restaurant from "./../component/Restaurant";
+import Header from "../component/Header";
+import Search from "../component/Search";
+import Restaurant from "../component/Restaurant";
 
-
-//คล้ายกับหน้า App.jsxเเต่ต่างกันเเค่ชื่อเอาCodeในนั้นมาใส่ได้เลยเวลาเปิดหน้าเเรกจะขึ้น/Home ดีกว่าไม่มีหน้าเเรกให้เลือกทำไว้สำหรับใช้ Navbar ใน อนาคต
-function Home() {
+function App() {
   const [restaurants, setRestaurants] = useState([]);
-  const [filterRestaurant, setfilterRestaurant] = useState([]);
-  
+  const [filteredRestaurants, setFilteredRestaurants] = useState([]);
+
   useEffect(() => {
     fetch("http://localhost:3000/restaurant")
-      .then((res) => {
-        return res.json();
+      .then((response) => response.json())
+      .then((data) => {
+        setRestaurants(data);
+        setFilteredRestaurants(data);
       })
-      .then((response) => {
-        setRestaurants(response);
-        setfilterRestaurant(response);
-      })
-      .catch((err) => {
-        console.log(err.message);
-      });
+      .catch((error) => console.error("Error fetching restaurants:", error));
   }, []);
-  const addRestaurant = (newRestaurant) => {
-    setRestaurants([...restaurants, newRestaurant]);
-    setfilterRestaurant([...restaurants, newRestaurant]);
-  };
 
   return (
-    <>
-      <div className="container flex flex-col items-center mx-auto space-y-4">
-        
-        <Search
-          restaurants={restaurants}
-          setfilterRestaurant={setfilterRestaurant}
-        />
-        <div className="container flex flex-row flex-wrap items-center justify-center">
-          <Restaurant restaurants={filterRestaurant} />
-        </div>
-      </div>
-    </>
-  )
-};
-export default Home;
+    <div className="container mx-auto">
+      <Header />
+      <Search
+        restaurants={restaurants}
+        setFilteredRestaurants={setFilteredRestaurants}
+      />
+      <Restaurant restaurants={filteredRestaurants} />
+    </div>
+  );
+}
+
+export default App;

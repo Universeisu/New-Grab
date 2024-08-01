@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import Header from "./components/Header";
 import Search from "./components/Search";
 import Restaurant from "./component/Restaurant";
+import "./App.css";
 
 function App() {
   const [restaurants, setRestaurants] = useState([]);
