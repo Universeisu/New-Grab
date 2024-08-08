@@ -10,7 +10,7 @@ const Edit = () => {
   });
 
   useEffect(() => {
-    fetch(`http://localhost:3000/restaurant/${id}`)
+    fetch(`http://localhost:5000/restaurant/${id}`)
       .then((res) => res.json())
       .then((response) => {
         setRestaurant(response);
@@ -28,7 +28,7 @@ const Edit = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await fetch(`http://localhost:3000/restaurant/${id}`, {
+      const response = await fetch(`http://localhost:5000/restaurant/${id}`, {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",

@@ -2,13 +2,14 @@ import React, { useState, useEffect } from "react";
 import Header from "../component/Header";
 import Search from "../component/Search";
 import Restaurant from "../component/Restaurant";
+import Swal from "sweetalert2";
 
-function App() {
+function Home() {
   const [restaurants, setRestaurants] = useState([]);
   const [filteredRestaurants, setFilteredRestaurants] = useState([]);
 
   useEffect(() => {
-    fetch("http://localhost:3000/restaurant")
+    fetch("http://localhost:5000/restaurant")
       .then((response) => response.json())
       .then((data) => {
         setRestaurants(data);
@@ -29,4 +30,4 @@ function App() {
   );
 }
 
-export default App;
+export default Home;

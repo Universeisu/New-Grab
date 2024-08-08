@@ -16,7 +16,7 @@ const Add = () => {
   const handSubmit = async (e) => {
     e.preventDefault(); // Prevent default form submission behavior
     try {
-      const response = await fetch("http://localhost:3000/restaurant", {
+      const response = await fetch("http://localhost:5000/restaurant", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -81,7 +81,10 @@ const Add = () => {
             />
           </div>
         )}
-        <button className="btn   btn-outline btn-primary mx-auto block" type="submit">
+        <button
+          className="btn   btn-outline btn-primary mx-auto block"
+          type="submit"
+        >
           Add Restaurant
         </button>
       </form>

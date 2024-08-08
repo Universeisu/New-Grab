@@ -8,7 +8,7 @@ import Home from "./pages/Home";
 
 ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
-    <Navbar />
+    
     <RouterProvider router={router} />
   </React.StrictMode>
 );

@@ -1,34 +1,19 @@
-import React, { useState, useEffect } from "react";
-import Header from "./components/Header";
-import Search from "./components/Search";
-import Restaurant from "./component/Restaurant";
-import "./App.css";
+import React from "react"; // Import the React library to use for creating components
 
-function App() {
-  const [restaurants, setRestaurants] = useState([]);
-  const [filteredRestaurants, setFilteredRestaurants] = useState([]);
+import Restaurants from "./Restaurants"; // Import the Restaurants component from the './Restaurants' file
 
-  useEffect(() => {
-    // Fetch restaurants from an API or a static file
-    fetch("http://localhost:3000/restaurant")
-      .then((response) => response.json())
-      .then((data) => {
-        setRestaurants(data);
-        setFilteredRestaurants(data);
-      })
-      .catch((error) => console.error("Error fetching restaurants:", error));
-  }, []);
-
+const App = () => {
+  // Declare a component named App using an arrow function
   return (
-    <div className="container mx-auto">
-      <Header />
-      <Search
-        restaurants={restaurants}
-        setFilteredRestaurants={setFilteredRestaurants}
-      />
-      <Restaurant restaurants={filteredRestaurants} />
-    </div>
+    // Return JSX to render the component
+    <div>
+      {" "}
+      {/* Start a div to wrap the content of the component */}
+      <h1>Restaurant Search</h1>{" "}
+      {/* Display a heading with the text "Restaurant Search" */}
+      <Restaurants /> {/* Render the Restaurants component */}
+    </div> // Close the div that wraps the content of the component
   );
-}
+};
 
-export default App;
+export default App; // Export the App component as the default export of this file

@@ -1,53 +1,102 @@
-import React from "react";
+import React, { useState,useEffect } from "react";
+import AuthService from "../service/auth.service";
+import { useAuthContext } from "../context/AuthContext";
+import { useNavigate } from "react-router-dom";
+import Swal from "sweetalert2";
 
-const Login = () => {
+function Login() {
+  const [user, setUser] = useState({
+    username: "",
+    password: "",
+  });
+
+  
+  const navigate = useNavigate();
+  
+const { login, user: logInUser } = useAuthContext();
+  useEffect(() => {
+    if(logInUser){
+      navigate("/")
+    }
+  }, [logInUser]);
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setUser((prevUser) => ({ ...prevUser, [name]: value }));
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      const currentUser = await AuthService.login(user.username, user.password);
+      console.log(currentUser);
+      if (currentUser.status === 200) {
+        login(currentUser.data);
+        Swal.fire({
+          title: "User Login",
+          text: "Login successfully",
+          icon: "success",
+        }).then(() => {
+          navigate("/dashboard"); // Adjust this to your desired route after login
+        });
+      }
+    } catch (error) {
+      Swal.fire({
+        icon: "error",
+        title: "Login failed!",
+        text: "Please check your credentials and try again.",
+      });
+    }
+  };
+
   return (
-    <div className="flex items-center justify-center min-h-screen bg-gray-900">
-      <div className="flex flex-col items-center p-6 bg-gray-800 rounded-lg shadow-md w-80">
-        <h2 className="text-lg font-semibold mb-4 text-white">Login</h2>
-
-        <label className="input input-bordered flex items-center gap-2 mb-3 w-full">
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            viewBox="0 0 16 16"
-            fill="currentColor"
-            className="h-4 w-4 text-gray-300"
-          >
-            <path d="M8 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6ZM12.735 14c.618 0 1.093-.561.872-1.139a6.002 6.002 0 0 0-11.215 0c-.22.578.254 1.139.872 1.139h9.47Z" />
-          </svg>
-          <input
-            type="text"
-            className="grow p-2 rounded focus:outline-none focus:ring-2 focus:ring-gray-500 bg-gray-700 text-white placeholder-gray-400"
-            placeholder="Username"
-          />
-        </label>
-
-        <label className="input input-bordered flex items-center gap-2 mb-4 w-full">
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            viewBox="0 0 16 16"
-            fill="currentColor"
-            className="h-4 w-4 text-gray-300"
-          >
-            <path
-              fillRule="evenodd"
-              d="M14 6a4 4 0 0 1-4.899 3.899l-1.955 1.955a.5.5 0 0 1-.353.146H5v1.5a.5.5 0 0 1-.5.5h-2a.5.5 0 0 1-.5-.5v-2.293a.5.5 0 0 1 .146-.353l3.955-3.955A4 4 0 1 1 14 6Zm-4-2a.75.75 0 0 0 0 1.5.5.5 0 0 1 .5.5.75.75 0 0 0 1.5 0 2 2 0 0 0-2-2Z"
-              clipRule="evenodd"
+    <div className="flex items-center justify-center min-h-screen bg-gradient-to-r from-blue-500 to-teal-500">
+      <div className="w-full max-w-md p-8 space-y-8 bg-white rounded-lg shadow-2xl">
+        <h2 className="text-3xl font-bold text-center text-gray-800">Login</h2>
+        <form className="space-y-6" onSubmit={handleSubmit}>
+          <div>
+            <label
+              htmlFor="username"
+              className="block text-sm font-medium text-gray-700"
+            >
+              Username
+            </label>
+            <input
+              type="text"
+              id="username"
+              name="username"
+              value={user.username}
+              onChange={handleChange}
+              className="block w-full px-3 py-2 mt-1 border rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm border-gray-300"
             />
-          </svg>
-          <input
-            type="password"
-            className="grow p-2 rounded focus:outline-none focus:ring-2 focus:ring-gray-500 bg-gray-700 text-white placeholder-gray-400"
-            placeholder="Password"
-          />
-        </label>
-
-        <button className="w-full p-2 bg-black text-white rounded hover:bg-gray-900 transition duration-200">
-          Login
-        </button>
+          </div>
+          <div>
+            <label
+              htmlFor="password"
+              className="block text-sm font-medium text-gray-700"
+            >
+              Password
+            </label>
+            <input
+              type="password"
+              id="password"
+              name="password"
+              value={user.password}
+              onChange={handleChange}
+              className="block w-full px-3 py-2 mt-1 border rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm border-gray-300"
+            />
+          </div>
+          <div>
+            <button
+              type="submit"
+              className="flex justify-center w-full px-4 py-2 text-sm font-medium text-white bg-indigo-600 border border-transparent rounded-md shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+            >
+              Login
+            </button>
+          </div>
+        </form>
       </div>
     </div>
   );
-};
+}
 
 export default Login;
