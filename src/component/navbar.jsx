@@ -4,88 +4,84 @@ import RegisterButton from "./RegisterButton";
 import { useAuthContext } from "../context/AuthContext";
 
 const Navbar = () => {
-  const { user, logout } = useAuthContext();
-  console.log("user,", user);
+  const { user } = useAuthContext();
+  const menus = {
+    ROLES_ADMIN: [
+      { name: "Add restaurant", link: "/add" },
+      { name: "Search", link: "/search" },
+    ],
+    ROLES_USER: [
+      {
+        name: "Search",
+        link: "/search",
+      },
+    ],
+    ROLES_MODERATOR: [
+      { name: "Add restaurant", link: "/add" },
+      { name: "Search", link: "/search" },
+    ],
+  };
 
   return (
-    <nav className="bg-white border-gray-200 dark:bg-gray-900">
-      <div className="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
-        <a href="/" className="flex items-center space-x-3 rtl:space-x-reverse">
-          <span className="self-center text-2xl font-semibold whitespace-nowrap dark:text-white">
-            Grab Restaurant
-          </span>
-        </a>
-        <button
-          data-collapse-toggle="navbar-default"
-          type="button"
-          className="inline-flex items-center p-2 w-10 h-10 justify-center text-sm text-gray-500 rounded-lg md:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600"
-          aria-controls="navbar-default"
-          aria-expanded="false"
-        >
-          <span className="sr-only">Open main menu</span>
+    <div className="navbar bg-base-100">
+      <div className="flex-none">
+        <button className="btn btn-square btn-ghost">
           <svg
-            className="w-5 h-5"
-            aria-hidden="true"
             xmlns="http://www.w3.org/2000/svg"
             fill="none"
-            viewBox="0 0 17 14"
+            viewBox="0 0 24 24"
+            className="inline-block h-5 w-5 stroke-current"
           >
             <path
-              stroke="currentColor"
               strokeLinecap="round"
               strokeLinejoin="round"
               strokeWidth="2"
-              d="M1 1h15M1 7h15M1 13h15"
-            />
+              d="M4 6h16M4 12h16M4 18h16"
+            ></path>
           </svg>
-        </button>
-        <div className="hidden w-full md:block md:w-auto" id="navbar-default">
-          <ul className="font-medium flex flex-col p-4 md:p-0 mt-4 border border-gray-100 rounded-lg bg-gray-50 md:flex-row md:space-x-8 rtl:space-x-reverse md:mt-0 md:border-0 md:bg-white dark:bg-gray-800 md:dark:bg-gray-900 dark:border-gray-700">
-            <li>
-              <a
-                href="/"
-                className="block py-2 px-3 text-white bg-blue-700 rounded md:bg-transparent md:text-blue-700 md:p-0 dark:text-white md:dark:text-blue-500"
-                aria-current="page"
-              >
-                Home
-              </a>
-            </li>
-            <li>
-              <a
-                href="/add"
-                className="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent"
-              >
-                add
-              </a>
-            </li>
+          <ul
+            tabIndex={0}
+            className="menu menu-sm dropdown-content bg-base-100 rounded-box z-[1] mt-3 w-52 p-2 shadow"
+          >
+            {user &&
+              menus[user.roles[0]].map((menuItem) => (
+                <li key={menuItem.name}>
+                  <a href={menuItem.link}>{menuItem.name}</a>
+                </li>
+              ))}
           </ul>
-        </div>
-
-        <div className="navbar-end space-x-2">
-          {user && (
-            <div>
-              Welcome, <span className="text-red-500">{user.username}</span>
-              {user.roles.map((role) => {
-                return (
-                  <div className={"badge text-xs badge-accent"} key={role}>
-                    {role}
-                  </div>
-                );
-              })}
-              <button onClick={logout} className="ml-4 text-red-500">
-                Logout
-              </button>
-            </div>
-          )}
-        </div>
-        {!user && (
-          <div className="flex-none">
-            <LoginButton />
+        </button>
+      </div>
+      <div className="flex-1">
+        <a href="/" className="btn btn-ghost text-xl">
+          Grab Restaurant
+        </a>
+      </div>
+      <div className="navbar-end space-x-2">
+        {user && (
+          <div>
+            Welcome,{" "}
+            <span className="text-red-500">
+              {user.name}
+              {""}
+              {user.roles.map((role, index) => (
+                <div key={index} className="badge text-xs badge-accent">
+                  {role}
+                </div>
+              ))}
+            </span>
+          </div>
+        )}
+        {user ? (
+          <UserProfile />
+        ) : (
+          <div className="space-x-2">
             <RegisterButton />
+            <LoginButton />
           </div>
         )}
       </div>
-    </nav>
+    </div>
   );
 };
 

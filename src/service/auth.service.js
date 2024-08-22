@@ -1,10 +1,10 @@
 import api from "./api";
 import TokenService from "./token.service";
 
-const API_URL = "/api/v1/auth";
+const API_URL = "http://localhost:5000/api/v1/auth";
 
-const register = async (username, email, password) => {
-  return await api.post(API_URL + "/sigunp", { username, email, password });
+const register = async (email, username, password) => {
+  return await api.post(API_URL + "/signup", { email, username, password });
 };
 
 const login = async (username, password) => {

@@ -25,7 +25,7 @@ const Register = () => {
         user.password
       );
 
-      console.log(register); // Debug: Log the entire response
+      // // Debug: Log the entire response
 
       if (register && register.status === 200) {
         Swal.fire({
