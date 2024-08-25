@@ -1,9 +1,21 @@
-import {useLottie} from "lottie-react"
+import Lottie from "lottie-react";
 
-const loading = () => {
+const Loading = ({ animation }) => {
+  const defaultOption = {
+    loop: true,
+    autoplay: true,
+    animationData: animation.defaut,
+  };
+  const style = {
+    height: 300,
+  };
   return (
-    <div>loading</div>
-  )
-}
+    <Lottie
+      animationData={animation}
+      defaultOption={defaultOption}
+      style={style}
+    />
+  );
+};
 
-export default loading
+export default Loading;

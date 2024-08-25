@@ -1,9 +1,19 @@
-import React from 'react'
+import React from "react";
+import { Outlet } from "react-router-dom";
+import { AuthProvider } from "../context/AuthContext";
+import Navbar from "../page/Navbar";
+import Footer from "./Footer";
 
-const AdminPage = () => {
+const AdminLayout = () => {
   return (
-    <div>AdminPage</div>
-  )
-}
+    <AuthProvider>
+      <Navbar />
+      <div className="h-screen">
+        <Outlet />
+      </div>
+      <Footer />
+    </AuthProvider>
+  );
+};
 
-export default AdminPage
+export default AdminLayout;

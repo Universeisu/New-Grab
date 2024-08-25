@@ -1,18 +1,31 @@
-import React from "react";
-import { createBrowserRouter, Navigate } from "react-router-dom";
-import Home from "../pages/Home.jsx";
-import Add from "../pages/Add.jsx";
-import Edit from "../pages/Edit.jsx";
-import Login from "../pages/Login.jsx";
-import Register from "../pages/Register.jsx";
-import Layout from "../component/Layout.jsx";
-import { useAuthContext } from "../context/AuthContext";
+import { createBrowserRouter } from "react-router-dom";
+// import Home from "../page/Home.jsx";
+import { lazy } from "react";
 
-// Route guard for protected routes
-const ProtectedRoute = ({ element }) => {
-  const { user } = useAuthContext();
-  return user ? element : <Navigate to="/login" />;
-};
+const Home = lazy(() => import("../page/Home.jsx"));
+const Add = lazy(() => import("../page/Add.jsx"));
+const Edit = lazy(() => import("../page/Edit.jsx"));
+const Login = lazy(() => import("../page/Login.jsx"));
+const Register = lazy(() => import("../page/Register.jsx"));
+const Layout = lazy(() => import("../Component/Layout.jsx"));
+const ModOrAdminPage = lazy(() => import("../page/ModOrAdminPage.jsx"));
+const NotAllowed = lazy(() => import("../page/NotAllowed.jsx"));
+const AdminPage = lazy(() => import("../page/AdminPage.jsx"));
+const UserPage = lazy(() => import("../page/UserPage.jsx"));
+const UserProfilePage = lazy(() => import("../page/UserProfilePage.jsx"));
+const AdminLayout = lazy(() => import("../Component/AdminLayout.jsx"));
+
+// import Add from "../page/Add.jsx";
+// import Edit from "../page/Edit.jsx";
+// import Login from "../page/Login.jsx";
+// import Register from "../page/Register.jsx";
+// import Layout from "../Component/Layout.jsx";
+// import ModOrAdminPage from "../page/ModOrAdminPage.jsx";
+// import NotAllowed from "../page/NotAllowed.jsx";
+// import AdminPage from "../page/AdminPage.jsx";
+// import UserPage from "../page/UserPage.jsx";
+// import UserProfilePage from "../page/UserProfilePage.jsx";
+// import AdminLayout from "../Component/AdminLayout.jsx";
 
 const router = createBrowserRouter([
   {
@@ -24,27 +37,57 @@ const router = createBrowserRouter([
         element: <Home />,
       },
       {
-        path: "/add",
-        element: <ProtectedRoute element={<Add />} />,
+        path: "home",
+        element: <Home />,
       },
       {
-        path: "/edit/:id",
-        element: <ProtectedRoute element={<Edit />} />,
+        path: "add",
+        element: (
+          <ModOrAdminPage>
+            <Add />,
+          </ModOrAdminPage>
+        ),
       },
       {
-        path: "/login",
+        path: "edit/:id",
+        element: (
+          <ModOrAdminPage>
+            <Edit />
+          </ModOrAdminPage>
+        ),
+      },
+
+      {
+        path: "login",
         element: <Login />,
       },
       {
-        path: "/register",
+        path: "register",
         element: <Register />,
+      },
+      {
+        path: "userprofilepage",
+        element: (
+          <UserPage>
+            <UserProfilePage />
+          </UserPage>
+        ),
+      },
+      {
+        path: "notallowed",
+        element: <NotAllowed />,
       },
     ],
   },
-  // Add a 404 route
   {
-    path: "*",
-    element: <div>Page not found</div>,
+    path: "/dashboard",
+    element: <AdminLayout />,
+    children: [
+      {
+        path: "users",
+        element: <div>dashboard</div>,
+      },
+    ],
   },
 ]);
 
